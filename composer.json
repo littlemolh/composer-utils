@@ -4,7 +4,10 @@
     "type": "project",
     "keywords": [
         "thinkphp",
-        "utils"
+        "utils",
+        "littlemo",
+        "php",
+        "tool"
     ],
     "homepage": "https://ggui.cn/",
     "license": "Apache-2.0",
