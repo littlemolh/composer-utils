@@ -80,7 +80,7 @@ class HttpClient
      * 请求预处理
      * @param resource $ch
      */
-    public function prepare(object $ch)
+    public function prepare($ch)
     {
         foreach (self::$conf as $key => $value) {
             curl_setopt($ch, $key, $value);
