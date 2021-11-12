@@ -94,9 +94,9 @@ class HttpClient
      * @param  array $headers HTTP header
      * @return array
      */
-    public function post($url, $body = [], $params = [], $headers = [])
+    public function post($url, $body = [], $params = [], $headers = [], $cert = [])
     {
-        return $this->request($url, $body, $params, $headers, 'POST');
+        return $this->request($url, $body, $params, $headers, 'POST', $cert);
     }
 
     /**
@@ -175,7 +175,7 @@ class HttpClient
      * @param array $headers
      * @return void
      */
-    public function request($url, $body = [], $params = [], $headers = [], $type = 'GET')
+    public function request($url, $body = [], $params = [], $headers = [], $type = 'GET', $cert = [])
     {
         $url = $this->buildUrl($url, $params);
         $headers = array_merge(self::$headers, self::buildHeaders($headers));
@@ -191,6 +191,16 @@ class HttpClient
         if ($type == 'POST') {
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($body) ? http_build_query($body) : $body);
+        }
+
+        if (!empty($cert)) {
+            //设置证书
+            //使用证书：cert 与 key 分别属于两个.pem文件
+            //证书文件请放入服务器的非web目录下
+            curl_setopt($ch, CURLOPT_SSLCERTTYPE, $cert['cert_type']);
+            curl_setopt($ch, CURLOPT_SSLCERT, $cert['cert']);
+            curl_setopt($ch, CURLOPT_SSLKEYTYPE, $cert['key_type']);
+            curl_setopt($ch, CURLOPT_SSLKEY, $cert['key']);
         }
 
         curl_setopt($ch, CURLOPT_TIMEOUT, self::$socketTimeout);
@@ -236,5 +246,30 @@ class HttpClient
         } else {
             return $url;
         }
+    }
+
+    /**
+     * 数组转XML
+     *
+     * @description
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2021-09-15
+     * @version 2021-09-15
+     * @param array $data
+     * @return string
+     */
+    public static function array_to_xml($data)
+    {
+        $xml = '<xml>';
+        foreach ($data as $key => $val) {
+            is_numeric($key) && $key = "item id=\"$key\"";
+            $xml    .=  "<$key>";
+            $xml    .=  (is_array($val) || is_object($val)) ? static::array_to_xml($val) : $val;
+            list($key,) = explode(' ', $key);
+            $xml    .=  "</$key>";
+        }
+        $xml .= '</xml>';
+        return $xml;
     }
 }
