@@ -3,11 +3,10 @@
     "description": "the littlemo common utils",
     "type": "project",
     "keywords": [
-        "thinkphp",
-        "utils",
         "littlemo",
-        "php",
-        "tool"
+        "tool",
+        "utils",
+        "qq"
     ],
     "homepage": "https://ggui.cn/",
     "license": "Apache-2.0",

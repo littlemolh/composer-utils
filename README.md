@@ -5,7 +5,7 @@ littlemo tool
 [![Total Downloads](https://poser.pugx.org/littlemo/utils/downloads)](https://packagist.org/packages/littlemo/utils)
 [![Latest Stable Version](https://poser.pugx.org/littlemo/utils/v/stable)](https://packagist.org/packages/littlemo/utils)
 [![Latest Unstable Version](https://poser.pugx.org/littlemo/utils/v/unstable)](https://packagist.org/packages/littlemo/utils)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D7.2-8892BF.svg)](http://www.php.net/)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D7.0-8892BF.svg)](http://www.php.net/)
 [![License](https://poser.pugx.org/littlemo/utils/license)](https://packagist.org/packages/littlemo/utils)
 
 ### 介绍
@@ -21,8 +21,7 @@ composer.json
 ```json
 {
     "require": {
-        "php": "^7.4",
-        "littlemo/utils": "*"
+        "littlemo/utils": "~1.0.0"
     }
 }
 ```
