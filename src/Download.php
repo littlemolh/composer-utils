@@ -31,7 +31,7 @@ class Download
      * @since 2021-07-17
      * @version 2021-07-17
      * @param string $file      文件路径（文件所在磁盘的绝对路径）
-     * @param string $filename  带后缀的文件名称
+     * @param string $filename  带后缀的(自定义)文件名称
      * @return void
      */
     public static function file($file, $filename)
@@ -51,12 +51,14 @@ class Download
             Header("Accept-Length: " . filesize($file));
 
 
-            //用来告诉浏览器，文件是可以当做附件被下载，下载后的文件名称为$file_name该变量的值。
+            /* 用来告诉浏览器，文件是可以当做附件被下载，下载后的文件名称为$file_name该变量的值。 - S */
             $filename = rawurlencode($filename);
             $filename = iconv('utf-8', 'GBK', $filename);
             // header("Content-Disposition:attachment;filename = " . $filename);
             $encoded_filename = $filename;
             $ua = $_SERVER["HTTP_USER_AGENT"];
+
+            //浏览器编码兼容处理
             if (preg_match("/MSIE/", $ua) || preg_match("/Trident\/7.0/", $ua)) {
                 header('Content-Disposition: attachment; filename="' . $filename . '"');
             } else if (preg_match("/Firefox/", $ua)) {
@@ -67,6 +69,7 @@ class Download
             } else {
                 header('Content-Disposition: attachment; filename="' . $filename . '"');
             }
+            /* 用来告诉浏览器，文件是可以当做附件被下载，下载后的文件名称为$file_name该变量的值。 - E */
 
             //读取文件内容并直接输出到浏览器    
             echo fread($fileContent, filesize($file));

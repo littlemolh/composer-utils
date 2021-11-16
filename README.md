@@ -1,5 +1,5 @@
 
-littlemo tool
+littlemo utils
 ===============
 
 [![Total Downloads](https://poser.pugx.org/littlemo/utils/downloads)](https://packagist.org/packages/littlemo/utils)
@@ -36,7 +36,7 @@ composer.json
 
 
 ```php
-use littlemo\tool\RequestRate;
+use littlemo\utils\RequestRate;
 $config=[
     'prefix'=>'ip',//缓存前缀
     'time'=>'60',//单位时间（s）
@@ -76,7 +76,7 @@ if($result === false){
 
 
 ```php
-use littlemo\tool\Git;
+use littlemo\utils\Git;
 
 $token = 'XXXXXXX';
 
@@ -102,12 +102,12 @@ $Git->pull($path, $exec);
 
 
 ```php
-use littlemo\tool\Download;
+use littlemo\utils\Download;
 
 /**
 * 下载文件
 * @param string $file      文件路径（文件所在磁盘的绝对路径）
-* @param string $filename  带后缀的文件名称
+* @param string $filename  带后缀的(自定义)文件名称
 */
 
 Download::file($file, $filename);
