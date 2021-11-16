@@ -49,8 +49,24 @@ class Download
             Header("Accept-Ranges: bytes");
             //Content-Length是指定包含于请求或响应中数据的字节长度    
             Header("Accept-Length: " . filesize($file));
+
+
             //用来告诉浏览器，文件是可以当做附件被下载，下载后的文件名称为$file_name该变量的值。
-            Header("Content-Disposition: attachment; filename=" . $filename);
+            $filename = rawurlencode($filename);
+            $filename = iconv('utf-8', 'GBK', $filename);
+            // header("Content-Disposition:attachment;filename = " . $filename);
+            $encoded_filename = $filename;
+            $ua = $_SERVER["HTTP_USER_AGENT"];
+            if (preg_match("/MSIE/", $ua) || preg_match("/Trident\/7.0/", $ua)) {
+                header('Content-Disposition: attachment; filename="' . $filename . '"');
+            } else if (preg_match("/Firefox/", $ua)) {
+                header('Content-Disposition: attachment; filename*="utf8\'\'' . $filename . '"');
+            } else if (preg_match("/Safari/", $ua)) {
+
+                header('Content-Disposition: attachment; filename*=UTF-8\'\'' . $filename);
+            } else {
+                header('Content-Disposition: attachment; filename="' . $filename . '"');
+            }
 
             //读取文件内容并直接输出到浏览器    
             echo fread($fileContent, filesize($file));
