@@ -147,7 +147,7 @@ $string = Common::createNonceStr($length , $enum ,  $dict);
 
 ```php
 
-$string = Common::createSign($params, $params_disorder = [], $type = 'md5');
+$string = Common::createSign($params, $params_disorder, $type);
 
 ```
 
