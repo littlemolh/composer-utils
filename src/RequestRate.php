@@ -77,7 +77,7 @@ class RequestRate
 
         $this->setCacheObj();
 
-        self::$key = self::$prefix . $this->getIp();
+        self::$key = self::$prefix . ':' . $this->getIp();
     }
 
     /**
