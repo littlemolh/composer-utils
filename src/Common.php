@@ -24,7 +24,7 @@ class Common
      * @since 2021-09-15
      * @version 2021-09-15
      * @param int   $length     随机字符串长度
-     * @param array $enum       字符串类型选择       
+     * @param array $enum       字符串类型选择:0=0-9，a=a-z,A=A-Z    
      * @param array $dict       初始字符库       
      * @return string
      */
@@ -59,12 +59,12 @@ class Common
      * @author LittleMo 25362583@qq.com
      * @since 2021-09-15
      * @version 2021-09-15
-     * @param array $params     需要按照字段名的ASCII 码从小到大排序（字典序）后
-     * @param array $params2    无需排序操作
-     * @param array $type       加密方式
+     * @param array $params             需要按照字段名的ASCII 码从小到大排序（字典序）的参数
+     * @param array $params_disorder    无需排序操作的参数
+     * @param array $type               加密方式
      * @return string
      */
-    public static function createSign($params, $params2 = [], $type = 'md5')
+    public static function createSign($params, $params_disorder = [], $type = 'md5')
     {
         ksort($params);
         $string = '';
@@ -74,7 +74,7 @@ class Common
                 $string .= (!empty($string) ? '&' : '') . $key . '=' . $val;
             }
         }
-        foreach ($params2 as $key => $val) {
+        foreach ($params_disorder as $key => $val) {
             if (!empty($val)) {
                 $string .= (!empty($string) ? '&' : '') . $key . '=' . $val;
             }

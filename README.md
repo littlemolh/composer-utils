@@ -114,6 +114,50 @@ Download::file($file, $filename);
 
 ```
 
+#### Common
+
+```php
+use littlemo\utils\Common;
+
+```
+
+#### 生成随字符串
+
+##### 示例代码
+
+
+```php
+
+$string = Common::createNonceStr($length , $enum ,  $dict);
+
+```
+
+参数说明
+| 参数   | 类型   | 默认          | 说明                                 |
+| :----- | :----- | :------------ | :----------------------------------- |
+| length | int    | 32            | 制作随机字符串长度                   |
+| enum   | Array  | ['0','a','A'] | 字符串类型选择（0=0-9，a=a-z,A=A-Z） |
+| dict   | string |               | 初始字符库（自定义字符库）           |
+
+
+#### 制作签名
+
+##### 示例代码
+
+
+```php
+
+$string = Common::createSign($params, $params_disorder = [], $type = 'md5');
+
+```
+
+参数说明
+| 参数            | 类型   | 必填 | 默认 | 说明                                                 |
+| :-------------- | :----- | :--- | :--- | :--------------------------------------------------- |
+| params          | Array  | Y    |      | 需要按照字段名的ASCII 码从小到大排序（字典序）的参数 |
+| params_disorder | Array  | N    | []   | 无需排序操作的参数                                   |
+| type            | string | N    | md5  | 加密方式(可选：md5,sha1)                             |
+
 
 
 ### 参与贡献
