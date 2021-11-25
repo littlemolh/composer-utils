@@ -21,7 +21,6 @@
     },
     "require-dev": {
         "phpoffice/phpword": "0.18.0",
-        "chillerlan/php-qrcode": "^4.0",
         "phpoffice/phpspreadsheet": "1.12"
     },
     "autoload": {
