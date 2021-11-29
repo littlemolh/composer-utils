@@ -23,9 +23,9 @@ class Common
      * @author LittleMo 25362583@qq.com
      * @since 2021-09-15
      * @version 2021-09-15
-     * @param int   $length     随机字符串长度
-     * @param array $enum       字符串类型选择:0=0-9，a=a-z,A=A-Z    
-     * @param array $dict       初始字符库       
+     * @param int       $length     随机字符串长度
+     * @param array     $enum       字符串类型选择:0=0-9，a=a-z,A=A-Z    
+     * @param string    $dict       初始字符库(定义字符串)       
      * @return string
      */
     public static function createNonceStr($length = 32, $enum = ['0', 'a', 'A'],  $dict = '')
@@ -36,7 +36,6 @@ class Common
             'A' => 'QWERTYUIOPASDFGHJKLZXCVBNM',
         ];
 
-        $dict = '';
         foreach ($enum as $val) {
             if (!empty($base[$val])) {
                 $dict .= $base[$val];
@@ -44,7 +43,7 @@ class Common
         }
 
         $str = '';
-        for ($i = 0; $i < $length; $i++) {
+        while (strlen($str) < $length) {
             $str .= substr($dict, rand(0, (strlen($dict) - 1)), 1);
         }
 
