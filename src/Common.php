@@ -81,13 +81,17 @@ class Common
 
         switch ($type) {
             case 'sha1':
-                $signature =  sha1($string);
+                return sha1($string); //40 字符长度的十六进制数
+                break;
+            case 'SHA1':
+                return sha1($string, true); //以 20 字符长度的原始二进制格式返回
+                break;
+            case 'MD5':
+                return md5($string, true); //以 16 字符长度的原始二进制格式返回
                 break;
             case 'md5':
-            case 'MD5':
             default:
-                $signature =  MD5($string);
+                return md5($string); //以 32 字符的十六进制数形式返回散列值
         }
-        return $signature;
     }
 }
