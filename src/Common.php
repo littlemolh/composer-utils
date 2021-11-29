@@ -67,7 +67,6 @@ class Common
     {
         ksort($params);
         $string = '';
-        $signature = '';
         foreach ($params as $key => $val) {
             if (!empty($val)) {
                 $string .= (!empty($string) ? '&' : '') . $key . '=' . $val;
