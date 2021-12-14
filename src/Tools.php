@@ -125,4 +125,35 @@ class Tools
         }
         return ($ip ? $ip : $_SERVER['REMOTE_ADDR']);
     }
+
+    /**
+     * 过滤字段
+     *
+     * @description
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2021-12-14
+     * @version 2021-12-14
+     * @param array $data       需要操作的数组
+     * @param array $persist    需要保留的字段,null：忽略操作
+     * @param array $unpersist  需要遗弃的字段,null：忽略操作
+     * @return void
+     */
+    public static function filterField(&$data, $persist = null, $unpersist =  null)
+    {
+        if ($persist !== null) {
+            foreach ($data as $key => &$val) {
+                if (!in_array($key, $persist)) {
+                    unset($val);
+                }
+            }
+        }
+        if ($unpersist !== null) {
+            foreach ($data as $key => &$val) {
+                if (in_array($key, $unpersist)) {
+                    unset($val);
+                }
+            }
+        }
+    }
 }
