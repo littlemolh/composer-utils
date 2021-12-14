@@ -12,16 +12,7 @@
 
 namespace littlemo\utils;
 
-/**
- * 即将抛弃，统一使用Tools
- *
- * @description
- * @example
- * @author LittleMo 25362583@qq.com
- * @since 2021-12-14
- * @version 2021-12-14
- */
-class Common
+class Tools
 {
 
     /**
@@ -101,5 +92,37 @@ class Common
             default:
                 return md5($string); //以 32 字符的十六进制数形式返回散列值
         }
+    }
+
+    /**
+     * 获取请求者真实IP地址
+     *
+     * @description
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2021-12-14
+     * @version 2021-12-14
+     * @return void
+     */
+    public static function getRealIp()
+    {
+        $ip = false;
+        if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
+            $ip = $_SERVER["HTTP_CLIENT_IP"];
+        }
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ips = explode(", ", $_SERVER['HTTP_X_FORWARDED_FOR']);
+            if ($ip) {
+                array_unshift($ips, $ip);
+                $ip = FALSE;
+            }
+            for ($i = 0; $i < count($ips); $i++) {
+                if (!preg_match("^(10│172.16│192.168).", $ips[$i])) {
+                    $ip = $ips[$i];
+                    break;
+                }
+            }
+        }
+        return ($ip ? $ip : $_SERVER['REMOTE_ADDR']);
     }
 }
