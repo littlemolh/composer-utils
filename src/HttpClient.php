@@ -124,7 +124,8 @@ class HttpClient
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($body) ? http_build_query($body) : $body);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($body) ? http_build_query($body) : $body);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($body) ? json_encode($body) : $body);
             curl_setopt($ch, CURLOPT_TIMEOUT, self::$socketTimeout);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, self::$connectTimeout);
             curl_multi_add_handle($mh, $ch);
@@ -190,7 +191,8 @@ class HttpClient
 
         if ($type == 'POST') {
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($body) ? http_build_query($body) : $body);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($body) ? http_build_query($body) : $body);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($body) ? json_encode($body) : $body);
         }
 
         if (!empty($cert)) {
