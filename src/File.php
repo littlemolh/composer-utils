@@ -98,4 +98,44 @@ class File
         }
         return $list;
     }
+
+    /**
+     * 下载远程文件
+     *
+     * @description
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2021-12-28
+     * @version 2021-12-28
+     * @param string $url       远程文件地址
+     * @param string $filename  自定义文件名称
+     * @return void
+     */
+    public static function grab($url, $filename = "")
+    {
+        if ($url == "") {
+            return false;
+        };
+        if ($filename == "") {
+            $ext = strrchr($url, ".");
+            if (!in_array($ext, ['.gif', '.jpg', '.png'])) {
+                $ext = '.jpg';
+            }
+            $filename = date("YmdHis") . $ext;
+        }
+        ob_start();
+        readfile($url);
+        $img = ob_get_contents();
+        ob_end_clean();
+        $size = strlen($img);
+        $fp2 = @fopen($filename, "a");
+        fwrite($fp2, $img);
+        fclose($fp2);
+        return [
+            'path' => $filename,
+            'size' => $size,
+            'url' => $url,
+            'ext' => $ext,
+        ];
+    }
 }
