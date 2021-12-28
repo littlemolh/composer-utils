@@ -142,12 +142,13 @@ class Tools
     public static function filterField(&$data, $persist = null, $unpersist =  null)
     {
         if ($persist !== null) {
-            foreach ($persist as $val) {
-                if (!array_key_exists($val,  $data)) {
-                    unset($data[$val]);
+            foreach ($data as $key => $val) {
+                if (!in_array($key,  $persist)) {
+                    unset($data[$key]);
                 }
             }
         }
+
         if ($unpersist !== null) {
             foreach ($unpersist as $val) {
                 if (array_key_exists($val,  $data)) {
