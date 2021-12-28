@@ -122,6 +122,8 @@ class File
                 $ext = '.jpg';
             }
             $filename = date("YmdHis") . $ext;
+        } else {
+            $ext = strrchr($filename, ".");
         }
         ob_start();
         readfile($url);
