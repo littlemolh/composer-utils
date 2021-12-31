@@ -166,6 +166,34 @@ type可选参数说明
 | sha1 | 40 字符长度的十六进制数              |
 | SHA1 | 以 20 字符长度的原始二进制格式返回   |
 
+
+#### Banner
+
+```php
+use littlemo\utils\Banner;
+```
+#### 合成图片
+
+##### 示例代码
+
+
+```php
+
+Banner::create(720, 780);//创建图像
+Banner::setBgColor();//设置图像背景颜色
+Banner::addImage('11.jpg',' 0, 0',' 0, 0');//添加图片
+
+$color = Banner::setColor(0, 0, 0);//获取颜色int值
+Banner::addText('20211225195933079158', 20, '200,740',  $color);//添加文字
+
+Banner::output();//输出图像
+Banner::save(date("YmdHis") . '.png');//保存图像
+print_r(Banner::getMessage());//输出错误信息
+
+```
+
+
+
 ### 参与贡献
 
 1.  littlemo
