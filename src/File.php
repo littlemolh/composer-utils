@@ -14,7 +14,6 @@ namespace littlemo\utils;
 
 class File
 {
-
     /**
      * 获取真实路径并去除'./'和'../'
      *
@@ -67,7 +66,7 @@ class File
      * @since 2021-07-26
      * @version 2021-07-26
      * @param string $path  根目录路径
-     * @param boolean $isManyDimensions 返回数据是否是多为数组
+     * @param boolean $isManyDimensions 返回数据是否是多维数组
      * @return array
      */
     public static function scandirFolder($path, $isManyDimensions = true)
@@ -109,9 +108,10 @@ class File
      * @version 2021-12-28
      * @param string $url       远程文件地址
      * @param string $filename  自定义文件名称
+     * @param string $root_dir   项目入口的根目录
      * @return void
      */
-    public static function grab($url, $filename = "")
+    public static function grab($url, $filename = "", $root_dir = "")
     {
         if ($url == "") {
             return false;
@@ -125,15 +125,19 @@ class File
         } else {
             $ext = strrchr($filename, ".");
         }
+        $full_path = $root_dir . '/' . $filename;
+        $full_path = self::getRealPath($full_path);
         ob_start();
         readfile($url);
         $img = ob_get_contents();
         ob_end_clean();
         $size = strlen($img);
-        $fp2 = @fopen($filename, "a");
+        $fp2 = @fopen($full_path, "a");
         fwrite($fp2, $img);
         fclose($fp2);
         return [
+            'full_path' => $full_path,
+            'root_dir' => $root_dir,
             'path' => $filename,
             'size' => $size,
             'url' => $url,
