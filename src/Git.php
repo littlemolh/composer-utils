@@ -13,13 +13,8 @@
 namespace littlemo\utils;
 
 
-class Git
+class Git extends Common
 {
-
-    /**
-     * @var object 对象实例
-     */
-    protected static $errorMsg = '请先验证';
 
     /**
      * 构造函数
@@ -33,6 +28,7 @@ class Git
      */
     public function __construct($token = '')
     {
+        self::setMessage('请先验证');
         if (!empty($token)) {
             $this->check($token);
         }
@@ -47,20 +43,22 @@ class Git
      * @since 2021-04-16
      * @version 2021-04-16
      * @param string $localToken
-     * @return void
+     * @return boolean
      */
     public function check($localToken = '')
     {
         $distalToken = $_GET['token'] ?? $_SERVER['HTTP_X_GITEE_TOKEN'] ?? 'k';
         if (empty($localToken)) {
-            self::$errorMsg = '请先配置Token';
+            self::setMessage('请先配置Token');
         } else {
             if ($localToken != $distalToken) {
-                self::$errorMsg = '权限不足';
+                self::setMessage('权限不足');
             } else {
-                self::$errorMsg = null;
+                self::setMessage(null);
+                return true;
             }
         }
+        return false;
     }
 
     /**
@@ -77,22 +75,63 @@ class Git
      */
     public function pull($path = '..', $exec = 'git pull origin master')
     {
-
         $exec = "cd $path && git config core.filemode false &&  $exec";
-        $this->doAction($exec);
+        return $this->doAction($exec);
+    }
+    /**
+     * 一键推送
+     *
+     * @description
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2021-04-16
+     * @version 2021-04-16
+     * @param string $path      需要推送的文件或文件夹路径
+     * @param string $commit    版本说明
+     * @return void
+     */
+    public function push($path = '..', $commit = '')
+    {
+        // 1. 添加变更文件
+        // 2. 添加版本说明
+        // 3. 开始推送
+        // 4. 记录推送反馈信息
+        self::printOut('暂未开发');
     }
 
-    function doAction($action)
+
+    /**
+     * 执行脚本
+     * @description
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2022-01-10
+     * @version 2022-01-10
+     * @param string $action    脚本内容
+     * @return boolean
+     */
+    public function doAction($action)
     {
-        if (self::$errorMsg) {
-            self::printOut(self::$errorMsg);
+        if (self::getMessage()) {
+
             return false;
         }
         exec($action, $out, $res);
-        self::printOut($out);
+        self::setMessage($out);
+        return true;
     }
 
-    private static function printOut($out)
+    /**
+     * 输出日志
+     * @description
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2022-01-10
+     * @version 2022-01-10
+     * @param string|array $out
+     * @return 
+     */
+    public static function printOut($out)
     {
         // $logFile = "./log/" . date('Y-m-d') . ".txt";
         echo "<pre>\n";
