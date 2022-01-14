@@ -141,6 +141,9 @@ class Tools
      */
     public static function filterField(&$data, $persist = null, $unpersist =  null)
     {
+        if (empty($data)) {
+            return $data;
+        }
         if ($persist !== null) {
             foreach ($data as $key => $val) {
                 if (!in_array($key,  $persist)) {
@@ -156,5 +159,7 @@ class Tools
                 }
             }
         }
+
+        return $data;
     }
 }
