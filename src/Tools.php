@@ -141,9 +141,14 @@ class Tools
      */
     public static function filterField(&$data, $persist = null, $unpersist =  null)
     {
+        if (is_object($data)) {
+            $data = $data->toArray();
+        }
+
         if (empty($data)) {
             return $data;
         }
+
         if ($persist !== null) {
             foreach ($data as $key => $val) {
                 if (!in_array($key,  $persist)) {
