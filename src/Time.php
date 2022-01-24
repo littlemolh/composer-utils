@@ -15,7 +15,7 @@ namespace littlemo\utils;
 class Time
 {
     /**
-     * 获取微秒时间戳
+     * 获取微观时间戳
      * @description
      * @example
      * @author LittleMo 25362583@qq.com
@@ -23,10 +23,23 @@ class Time
      * @version 2022-01-22
      * @return float
      */
-    static public function microtime()
+    static public function microtime($type = 's', &$time = null)
     {
+
         list($m, $s) = explode(' ', microtime());
-        return $s + $m;
+        $time = bcadd($s, $m, 8);
+        var_dump($time);
+        switch ($type) {
+            case 'ms':
+                return bcmul($time, 1000, 5);
+                break;
+            case 'us':
+                return bcmul($time, 1000000, 2);
+                break;
+            case 's':
+            default:
+                return $time;
+        }
     }
 
 
