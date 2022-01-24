@@ -169,7 +169,7 @@ class Tools
     }
 
     /**
-     * 获取微秒时间戳，以秒单位返回
+     * 获取微秒时间戳
      * @description
      * @example
      * @author LittleMo 25362583@qq.com
@@ -180,6 +180,6 @@ class Tools
     public static function microtime()
     {
         list($m, $s) = explode(' ', microtime());
-        return $s + ($m * 1000);
+        return $s + $m;
     }
 }
