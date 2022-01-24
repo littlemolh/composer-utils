@@ -167,19 +167,4 @@ class Tools
 
         return $data;
     }
-
-    /**
-     * 获取微秒时间戳
-     * @description
-     * @example
-     * @author LittleMo 25362583@qq.com
-     * @since 2022-01-22
-     * @version 2022-01-22
-     * @return float
-     */
-    public static function microtime()
-    {
-        list($m, $s) = explode(' ', microtime());
-        return $s + $m;
-    }
 }
