@@ -169,7 +169,7 @@ class Tools
     }
 
     /**
-     * 获取微秒时间
+     * 获取微秒时间戳，以秒单位返回
      * @description
      * @example
      * @author LittleMo 25362583@qq.com
