@@ -28,7 +28,6 @@ class Time
 
         list($m, $s) = explode(' ', microtime());
         $time = bcadd($s, $m, 8);
-        var_dump($time);
         switch ($type) {
             case 'ms':
                 return bcmul($time, 1000, 5);
