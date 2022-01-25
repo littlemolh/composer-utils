@@ -51,7 +51,7 @@ class Time
      * @param string|int $time   指定时间戳或日期
      * @return array 
      */
-    static public function today($time = null, &$beginTime, &$endTime)
+    static public function today($time = null, &$beginTime = 0, &$endTime = 0)
     {
         $time = $time ? (is_numeric($time) ? $time : strtotime($time)) : time();
         $beginTime = strtotime(date("Y-m-d 00:00:00", $time));
