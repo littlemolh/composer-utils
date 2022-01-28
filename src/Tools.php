@@ -150,11 +150,7 @@ class Tools
         }
 
         if ($persist !== null) {
-            foreach ($data as $key => $val) {
-                if (!in_array($key,  $persist)) {
-                    unset($data[$key]);
-                }
-            }
+            $data = array_intersect_key($data, array_flip($persist));
         }
 
         if ($unpersist !== null) {
