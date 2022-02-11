@@ -168,33 +168,25 @@ class Banner
             $dst_x = 0;
             $dst_y = 0;
         } else {
-            $arr = explode(',', $dst_xy);
-            $dst_x = $arr[0];
-            $dst_y = $arr[1] ?? 0;
+            list($dst_x, $dst_y) = explode(',', $dst_xy);
         }
         if ($src_xy == null) {
             $src_x = 0;
             $src_y = 0;
         } else {
-            $arr = explode(',', $src_xy);
-            $src_x = $arr[0];
-            $src_y = $arr[1] ?? 0;
+            list($src_x, $src_y) = explode(',', $src_xy);
         }
         if ($src_wh == null) {
             $src_w = imagesx($image);
             $src_h = imagesy($image);
         } else {
-            $arr = explode(',', $src_wh);
-            $src_w = $arr[0];
-            $src_h = imagesy($image);
+            list($src_w, $src_h) = explode(',', $src_wh);
         }
         if ($dst_wh == null) {
             $dst_w = $src_w;
             $dst_h = $src_h;
         } else {
-            $arr = explode(',', $dst_wh);
-            $dst_w = $arr[0];
-            $dst_h = $src_h;
+            list($dst_w, $dst_h) = explode(',', $dst_wh);
         }
         if ($pct !== 100) {
             if (imagecopymerge(self::$im, $image, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct) === false) {
