@@ -160,4 +160,25 @@ class Time
         $endTime = strtotime(date("Y-m-01 00:00:00")) - 1;
         return [$beginTime, $endTime];
     }
+
+    /**
+     * 最近几天的开始和结束时间，结束时间为当前时间
+     * @description
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2022-02-11
+     * @version 2022-02-11
+     * @param string|int $time   指定时间戳或日期
+     * @param int $days          天数
+     * @param int $beginTime     绑定开始时间
+     * @param int $endTime       绑定结束时间
+     * @return void
+     */
+    static public function lately($time = null, $days = 0, &$beginTime = 0, &$endTime = 0)
+    {
+        $time = $time ? (is_numeric($time) ? $time : strtotime($time)) : time();
+        $beginTime = strtotime(date("Y-m-d 00:00:00", strtotime("-" . $days . " day", $time)));
+        $endTime = strtotime(date("Y-m-d 23:59:59", $time));
+        return [$beginTime, $endTime];
+    }
 }
