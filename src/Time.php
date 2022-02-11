@@ -14,6 +14,7 @@ namespace littlemo\utils;
 
 class Time
 {
+
     /**
      * 获取微观时间戳
      * @description
@@ -21,6 +22,8 @@ class Time
      * @author LittleMo 25362583@qq.com
      * @since 2022-01-22
      * @version 2022-01-22
+     * @param string    $type   单位：s=秒，ms=毫秒，us=微秒
+     * @param int       $time   绑定最终时间戳
      * @return float
      */
     static public function microtime($type = 's', &$time = null)
@@ -41,14 +44,15 @@ class Time
         }
     }
 
-
     /**
      * 指定时间的当天开始和结束时间
      *
      * @description
      * @author LittleMo 25362583@qq.com
      * @version 2020-10-27
-     * @param string|int $time   指定时间戳或日期
+     * @param string|int    $time       指定时间戳或日期
+     * @param int           $beginTime  绑定开始时间
+     * @param int           $endTime    绑定结束时间
      * @return array 
      */
     static public function today($time = null, &$beginTime = 0, &$endTime = 0)
@@ -58,14 +62,17 @@ class Time
         $endTime = strtotime(date("Y-m-d 23:59:59", $time));
         return [$beginTime, $endTime];
     }
+
     /**
      * 指定时间的本周开始和结束时间
      *
      * @description
      * @author LittleMo 25362583@qq.com
      * @version 2020-10-27
-     * @param string|int $time   指定时间戳或日期
-     * @param int        $s      指定每周从那一天开始，0代表周日
+     * @param string|int    $time       指定时间戳或日期
+     * @param int           $s          指定每周从那一天开始，0代表周日
+     * @param int           $beginTime  绑定开始时间
+     * @param int           $endTime    绑定结束时间
      * @return array 
      */
     static public function thisWeek($time = null, $s = 1, &$beginTime = 0, &$endTime = 0)
@@ -84,7 +91,9 @@ class Time
      * @description
      * @author LittleMo 25362583@qq.com
      * @version 2020-10-27
-     * @param string|int $time   指定时间戳或日期
+     * @param string|int    $time       指定时间戳或日期
+     * @param int           $beginTime  绑定开始时间
+     * @param int           $endTime    绑定结束时间
      * @return array 
      */
     static public function thisMonth($time = null, &$beginTime = 0, &$endTime = 0)
@@ -94,13 +103,16 @@ class Time
         $endTime = strtotime(date("Y-m-01 00:00:00", strtotime("+1 month", $time))) - 1;
         return [$beginTime, $endTime];
     }
+
     /**
      * 指定时间的前一天开始和结束时间
      *
      * @description
      * @author LittleMo 25362583@qq.com
      * @version 2020-10-27
-     * @param string|int $time   指定时间戳或日期
+     * @param string|int    $time       指定时间戳或日期
+     * @param int           $beginTime  绑定开始时间
+     * @param int           $endTime    绑定结束时间
      * @return array 
      */
     static public function yesterday($time = null, &$beginTime = 0, &$endTime = 0)
@@ -110,13 +122,16 @@ class Time
         $endTime = strtotime(date("Y-m-d 23:59:59", strtotime("-1 day", $time)));
         return [$beginTime, $endTime];
     }
+
     /**
      * 指定时间的前一周的当天开始和结束时间
      *
      * @description
      * @author LittleMo 25362583@qq.com
      * @version 2020-10-27
-     * @param string|int $time   指定时间戳或日期
+     * @param string|int    $time       指定时间戳或日期
+     * @param int           $beginTime  绑定开始时间
+     * @param int           $endTime    绑定结束时间
      * @return array 
      */
     static public function todayLastWeek($time = null, &$beginTime = 0, &$endTime = 0)
@@ -133,8 +148,10 @@ class Time
      * @description
      * @author LittleMo 25362583@qq.com
      * @version 2020-10-27
-     * @param string|int $time   指定时间戳或日期
-     * @param int        $s      指定每周从那一天开始，0代表周日
+     * @param string|int    $time       指定时间戳或日期
+     * @param int           $s          指定每周从那一天开始，0代表周日
+     * @param int           $beginTime  绑定开始时间
+     * @param int           $endTime    绑定结束时间
      * @return array 
      */
     static public function lastWeek($time = null, $s = 1, &$beginTime = 0, &$endTime = 0)
@@ -144,13 +161,16 @@ class Time
         $endTime = $beginTime + 7 * 24 * 3600 - 1;
         return [$beginTime, $endTime];
     }
+
     /**
      * 指定时间的前一月的开始和结束时间
      *
      * @description
      * @author LittleMo 25362583@qq.com
      * @version 2020-10-27
-     * @param string|int $time   指定时间戳或日期
+     * @param string|int    $time       指定时间戳或日期
+     * @param int           $beginTime  绑定开始时间
+     * @param int           $endTime    绑定结束时间
      * @return array 
      */
     static public function lastMonth($time = null, &$beginTime = 0, &$endTime = 0)
@@ -168,11 +188,11 @@ class Time
      * @author LittleMo 25362583@qq.com
      * @since 2022-02-11
      * @version 2022-02-11
-     * @param string|int $time   指定时间戳或日期
-     * @param int $days          天数
-     * @param int $beginTime     绑定开始时间
-     * @param int $endTime       绑定结束时间
-     * @return void
+     * @param string|int    $time       指定时间戳或日期
+     * @param int           $days       天数
+     * @param int           $beginTime  绑定开始时间
+     * @param int           $endTime    绑定结束时间
+     * @return array
      */
     static public function lately($time = null, $days = 0, &$beginTime = 0, &$endTime = 0)
     {
