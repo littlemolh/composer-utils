@@ -163,4 +163,51 @@ class Tools
 
         return $data;
     }
+
+    /**
+     * Undocumented function
+     * @description
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2022-03-11
+     * @version 2022-03-11
+     * @param array $pool 奖池概率
+     * @param int $number 抽几次
+     * @return array
+     */
+    public static function randomField(array $pool, $number = 1, &$d = [])
+    {
+        $l = 1;
+        foreach ($pool as $val) {
+            $temp =  strlen(substr(strrchr($val, "."), 1));
+            if ($temp > $l) {
+                $l = $temp;
+            }
+        }
+
+        $multiplier = 1;
+        for ($i = 0; $i < $l; $i++) {
+            $multiplier *= 10;
+        }
+
+        $max = 0;
+        foreach ($pool as $val) {
+            $max += $val * $multiplier;
+        }
+
+        $d = [];
+        while ($number > 0) {
+            $hit = rand(1, $max);
+            $temp = 0;
+            foreach ($pool as $key => $val) {
+                $temp += $val * $multiplier;
+                if ($hit <= $temp) {
+                    $d[] = $key;
+                    break;
+                }
+            }
+            --$number;
+        }
+        return $d;
+    }
 }
