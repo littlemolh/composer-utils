@@ -19,25 +19,25 @@ namespace littlemo\utils;
  * @example
  * @author LittleMo 25362583@qq.com
  * @since 2021-12-30
- * @version 2021-12-30
+ * @version 2022-03-17
  */
 class Banner
 {
 
     /**
-     * 背景图片宽度 
+     * 图片宽度 
      */
-    static $w = 0;
+    static $width = 0;
 
     /**
-     * 背景图片高度
+     * 图片高度
      */
-    static $h = 0;
+    static $height = 0;
 
     /**
      * 图片资源
      */
-    static $im = null;
+    static $image = null;
 
     /**
      * 图片类型
@@ -48,14 +48,17 @@ class Banner
      * 错误信息
      */
     static $msg = [];
-    static function create($w, $h, $type = 'png')
+    static function create($width, $height, $type = 'png')
     {
-        self::$w = $w;
-        self::$h = $h;
+        self::$width = $width;
+        self::$height = $height;
         self::$type = $type;
 
-        // self::$im = @imagecreate($w, $h) or self::$msg[] = '创建图像资源失败';
-        self::$im = imagecreatetruecolor($w, $h);
+        // self::$image = @imagecreate($width, $height) or self::$msg[] = '创建图像资源失败';
+        self::$image = imagecreatetruecolor($width, $height);
+        if (self::$type == 'png') {
+            imagesavealpha(self::$image, true);
+        }
     }
 
     /**
@@ -68,15 +71,19 @@ class Banner
      * @version 2021-12-30
      * @return void
      */
-    static function setBgColor($r = 255, $g = 255, $b = 255)
+    static function setBgColor($red = 255, $green = 255, $blue = 255, $alpha = 127)
     {
 
-        $color = imagecolorallocate(self::$im, $r, $g, $b); // 为真彩色画布创建白色背景，再设置为透明 
-        imagefill(self::$im, 0, 0, $color);
-        // imageColorTransparent(self::$im, $color);
+        if (self::$type == 'png') {
+            $color = imagecolorallocatealpha(self::$image,  $red, $green, $blue, $alpha); //设置为透明背景
+        } else {
+            $color = imagecolorallocate(self::$image, $red, $green, $blue); // 为真彩色画布创建白色背景，
+        }
+        imagefill(self::$image, 0, 0, $color);
+        // imageColorTransparent(self::$image, $color);
     }
     /**
-     * 设置背景颜色
+     * 设置颜色
      *
      * @description
      * @example
@@ -85,15 +92,15 @@ class Banner
      * @version 2021-12-30
      * @return void
      */
-    static function setColor($r = 255, $g = 255, $b = 255)
+    static function setColor($red = 255, $green = 255, $blue = 255)
     {
 
-        return   imagecolorallocate(self::$im, $r, $g, $b);
+        return   imagecolorallocate(self::$image, $red, $green, $blue);
 
-        // self::$im = imagecreatetruecolor(self::$bg_w, self::$bg_h); // 背景图片 
-        // $color = imagecolorallocate(self::$im, 202, 201, 201); // 为真彩色画布创建白色背景，再设置为透明 
-        // imagefill(self::$im, 0, 0, $color);
-        // imageColorTransparent(self::$im, $color);
+        // self::$image = imagecreatetruecolor(self::$blueg_w, self::$blueg_h); // 背景图片 
+        // $color = imagecolorallocate(self::$image, 202, 201, 201); // 为真彩色画布创建白色背景，再设置为透明 
+        // imagefill(self::$image, 0, 0, $color);
+        // imageColorTransparent(self::$image, $color);
     }
 
 
@@ -126,7 +133,7 @@ class Banner
             $x = $arr[0];
             $y = $arr[1] ?? 0;
         }
-        imagettftext(self::$im, $size, $angle, $x, $y + $size, $color, $fontfile, $text);
+        imagettftext(self::$image, $size, $angle, $x, $y + $size, $color, $fontfile, $text);
     }
 
     /**
@@ -150,18 +157,18 @@ class Banner
     {
 
 
-        if (($imgInfo = getimagesize($src_im)) === false) {
+        if (($imagegInfo = getimagesize($src_im)) === false) {
             self::$msg[] = '[addImage]图片类型读取失败';
         }
-        switch ($imgInfo['mime']) {
+        switch ($imagegInfo['mime']) {
             case 'jpg':
             case 'jpeg':
             case 'image/jpeg':
-                $image = imagecreatefromjpeg($src_im);
+                $imageage = imagecreatefromjpeg($src_im);
                 break;
             case 'png':
             case 'image/png':
-                $image = imagecreatefrompng($src_im);
+                $imageage = imagecreatefrompng($src_im);
                 break;
         }
         if ($dst_xy == null) {
@@ -177,8 +184,8 @@ class Banner
             list($src_x, $src_y) = explode(',', $src_xy);
         }
         if ($src_wh == null) {
-            $src_w = imagesx($image);
-            $src_h = imagesy($image);
+            $src_w = imagesx($imageage);
+            $src_h = imagesy($imageage);
         } else {
             list($src_w, $src_h) = explode(',', $src_wh);
         }
@@ -189,18 +196,18 @@ class Banner
             list($dst_w, $dst_h) = explode(',', $dst_wh);
         }
         if ($pct !== 100) {
-            if (imagecopymerge(self::$im, $image, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct) === false) {
+            if (imagecopymerge(self::$image, $imageage, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct) === false) {
                 self::$msg[] = '[addImage]图片合并失败';
             };
         } else {
             if ($smooth == false) {
                 //函数在所有GD版本中有效，但其缩放图像的算法比较粗糙。
-                if (imagecopyresized(self::$im, $image, $dst_x, $dst_y, $src_x, $src_y,  $dst_w, $dst_h, $src_w, $src_h) === false) {
+                if (imagecopyresized(self::$image, $imageage, $dst_x, $dst_y, $src_x, $src_y,  $dst_w, $dst_h, $src_w, $src_h) === false) {
                     self::$msg[] = '[addImage]图片合并失败';
                 };
             } else {
                 //其像素插值算法得到的图像边缘比较平滑，但该函数的速度比ImageCopyResized()慢。
-                if (imagecopyresampled(self::$im, $image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) === false) {
+                if (imagecopyresampled(self::$image, $imageage, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h) === false) {
                     self::$msg[] = '[addImage]图片合并失败';
                 };
             }
@@ -223,16 +230,16 @@ class Banner
         switch (self::$type) {
             case 'png': //以PNG格式输出图像
                 header('Content-type:image/png');
-                imagepng(self::$im);
+                imagepng(self::$image);
                 break;
             case 'jpeg': //以jpeg格式输出图像
             case 'jpg': //以jpg格式输出图像
                 header('Content-type:image/jpeg');
-                imagejpeg(self::$im, null, $quality);
+                imagejpeg(self::$image, null, $quality);
                 break;
         }
 
-        imagedestroy(self::$im);
+        imagedestroy(self::$image);
     }
 
     /**
@@ -250,21 +257,21 @@ class Banner
     {
         switch (self::$type) {
             case 'png': //以PNG格式保存图像
-                imagepng(self::$im, $path);
+                imagepng(self::$image, $path);
                 break;
             case 'jpeg': //以jpeg格式保存图像
             case 'jpg': //以jpg格式保存图像
-                imagejpeg(self::$im, $path, $quality);
+                imagejpeg(self::$image, $path, $quality);
                 break;
             case 'gif': //以gif格式保存图像
-                imagegif(self::$im, $path);
+                imagegif(self::$image, $path);
                 break;
             case 'wbmp': //以wbmp格式保存图像
-                imagewbmp(self::$im, $path);
+                imagewbmp(self::$image, $path);
                 break;
         }
 
-        imagedestroy(self::$im);
+        imagedestroy(self::$image);
     }
 
     static function getMessage()

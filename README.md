@@ -21,7 +21,7 @@ composer.json
 ```json
 {
     "require": {
-        "littlemo/utils": "~1.0.0"
+        "littlemo/utils": "~1.2"
     }
 }
 ```
@@ -114,10 +114,10 @@ Download::file($file, $filename);
 
 ```
 
-#### Common
+#### Tools
 
 ```php
-use littlemo\utils\Common;
+use littlemo\utils\Tools;
 
 ```
 
@@ -128,7 +128,7 @@ use littlemo\utils\Common;
 
 ```php
 
-$string = Common::createNonceStr($length , $enum ,  $dict);
+$string = Tools::createNonceStr($length , $enum ,  $dict);
 
 ```
 
@@ -147,7 +147,7 @@ $string = Common::createNonceStr($length , $enum ,  $dict);
 
 ```php
 
-$string = Common::createSign($params, $params_disorder, $type);
+$string = Tools::createSign($params, $params_disorder, $type);
 
 ```
 
