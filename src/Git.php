@@ -117,7 +117,8 @@ class Git extends Common
             return false;
         }
         exec($action, $out, $res);
-        self::setMessage($out);
+        // self::setMessage($out);
+        self::printOut($out);
         return true;
     }
 
