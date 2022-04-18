@@ -133,6 +133,39 @@ class Banner
             $x = $arr[0];
             $y = $arr[1] ?? 0;
         }
+        if (!is_numeric($x) || !is_numeric($y)) {
+            $box = imagettfbbox(
+                $size,
+                $angle,
+                $fontfile,
+                $text
+            );
+            if (!is_numeric($x)) {
+                $x = explode('-', $x);
+                $align = $x[0];
+                $margin = $x[1] ?? 0;
+                if ($align == 'left') {
+                    $x = $margin;
+                } elseif ($align == 'right') {
+                    $x = (self::$width - $box[2]) - $margin;
+                } else if ($align == 'center') {
+                    $x = ceil((self::$width - $box[2]) / 2);
+                }
+            }
+            if (!is_numeric($y)) {
+                $y = explode('-', $y);
+                $align = $y[0];
+                $margin = $y[1] ?? 0;
+                if ($align == 'top') {
+                    $y = $margin;
+                } elseif ($align == 'bottom') {
+                    $y = (self::$height + $box[5]) - $margin;
+                } elseif ($align == 'center') {
+                    $y = ceil((self::$height + $box[5]) / 2);
+                }
+            }
+        }
+
         imagettftext(self::$image, $size, $angle, $x, $y + $size, $color, $fontfile, $text);
     }
 
