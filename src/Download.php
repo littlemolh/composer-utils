@@ -40,6 +40,7 @@ class Download
         if (!file_exists($file)) {
             header('HTTP/1.1 404 NOT FOUND');
         } else {
+            header("Content-type: text/html; charset=utf-8");
             //以只读和二进制模式打开文件   
             $fileContent = fopen($file, "rb");
 
@@ -53,7 +54,7 @@ class Download
 
             /* 用来告诉浏览器，文件是可以当做附件被下载，下载后的文件名称为$file_name该变量的值。 - S */
             $filename = rawurlencode($filename);
-            $filename = iconv('utf-8', 'GBK', $filename);
+            // $filename = iconv('utf-8', 'GBK', $filename);
             // header("Content-Disposition:attachment;filename = " . $filename);
             $encoded_filename = $filename;
             $ua = $_SERVER["HTTP_USER_AGENT"];
