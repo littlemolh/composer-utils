@@ -12,6 +12,7 @@
 
 namespace littlemo\utils;
 
+use littlemo\utils\core\LUtilsException;
 use Redis;
 
 /**
@@ -101,8 +102,8 @@ class RequestRate
             self::inc();
             $num =  self::get();
             if ($num >= self::$maxCount) {
-                self::$message = 'IP: ' . $ip . '；' . self::$time . 's 内请求次数大于 ' . self::$maxCount . '次；共计：' . $num;
-                return false;
+                $message = 'IP: ' . $ip . '；' . self::$time . 's 内请求次数大于 ' . self::$maxCount . '次；共计：' . $num;
+                throw new LUtilsException($message);
             }
         } else {
             self::set();
@@ -131,20 +132,7 @@ class RequestRate
                 break;
         }
     }
-    /**
-     * 获取错误信息
-     *
-     * @description
-     * @example
-     * @author LittleMo 25362583@qq.com
-     * @since 2021-06-28
-     * @version 2021-06-28
-     * @return string
-     */
-    public function getMessage()
-    {
-        return self::$message;
-    }
+
 
     /**
      * 获取缓存次数

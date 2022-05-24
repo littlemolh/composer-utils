@@ -210,4 +210,38 @@ class Tools
         }
         return $d;
     }
+
+    /**
+     * 比较两个版本号大小，
+     * @description $version和$compare比较,结果：‘>’、‘<’或‘=’
+     * @example
+     * @author LittleMo 25362583@qq.com
+     * @since 2022-05-24
+     * @version 2022-05-24
+     * @param string $version   当前版本名称
+     * @param string $compare   需要比较的版本名称
+     * @return string
+     */
+    public static function version($version, $compare)
+    {
+        $version_arr =  explode('.', $version);
+        $compare_arr =  explode('.', $compare);
+        foreach ($version_arr as $key => $val) {
+            if ($val == ($compare_arr[$key] ?? 0)) {
+                continue;
+            } elseif ($val  > ($compare_arr[$key] ?? 0)) {
+                return '>';
+            } else {
+                return '<';
+            }
+        }
+        if (count($version_arr) < count($compare_arr)) {
+            for ($i = count($version_arr); $i < count($compare_arr); ++$i) {
+                if ($compare_arr[$i] > 0) {
+                    return '<';
+                }
+            }
+        }
+        return '=';
+    }
 }

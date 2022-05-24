@@ -12,9 +12,12 @@
 
 namespace littlemo\utils;
 
+use littlemo\utils\core\LUtilsException;
 
-class Git extends Common
+class Git
 {
+
+    private static $check = false;
 
     /**
      * 构造函数
@@ -28,8 +31,7 @@ class Git extends Common
      */
     public function __construct($token = '')
     {
-        self::setMessage('请先验证');
-        if (!empty($token)) {
+        if ($token) {
             $this->check($token);
         }
     }
@@ -47,18 +49,19 @@ class Git extends Common
      */
     public function check($localToken = '')
     {
-        $distalToken = $_GET['token'] ?? $_SERVER['HTTP_X_GITEE_TOKEN'] ?? 'k';
-        if (empty($localToken)) {
-            self::setMessage('请先配置Token');
-        } else {
-            if ($localToken != $distalToken) {
-                self::setMessage('权限不足');
-            } else {
-                self::setMessage(null);
-                return true;
-            }
+        if (self::$check == true) {
+            return;
         }
-        return false;
+        if (empty($localToken)) {
+            throw new LUtilsException('请先设置token');
+        }
+        $distalToken = $_GET['token'] ?? $_SERVER['HTTP_X_GITEE_TOKEN'] ?? 'k';
+
+        if ($localToken != $distalToken) {
+            throw new LUtilsException('token匹配不成功');
+        }
+        self::$check = true;
+        return $this;
     }
 
     /**
@@ -75,6 +78,7 @@ class Git extends Common
      */
     public function pull($path = '..', $exec = 'git pull origin master')
     {
+        $this->check();
         $exec = "cd $path && git config core.filemode false &&  $exec";
         return $this->doAction($exec);
     }
@@ -110,12 +114,10 @@ class Git extends Common
      * @param string $action    脚本内容
      * @return boolean
      */
-    public function doAction($action)
+    private function doAction($action)
     {
-        if (self::getMessage()) {
+        $this->check();
 
-            return false;
-        }
         exec($action, $out, $res);
         // self::setMessage($out);
         self::printOut($out);
