@@ -37,12 +37,17 @@ class HttpClient
      */
     static $conf = [];
 
+
+    static $contentType = null;
+
     /**
      * HttpClient
      * @param array $headers HTTP header
      */
     public function __construct($headers = [], $connectTimeout = 60000, $socketTimeout = 60000, $conf = [])
     {
+        self::$contentType = null;
+
         self::$headers = self::buildHeaders($headers);
         self::$connectTimeout = $connectTimeout;
         self::$socketTimeout = $socketTimeout;
@@ -190,9 +195,20 @@ class HttpClient
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         if ($type == 'POST') {
+            preg_match('/application\/([\w-]*)/', self::$contentType ?? '', $matches);
+            switch ($matches[1]) {
+                case 'json':
+                    $body = is_array($body) ? json_encode($body) : $body;
+                    break;
+                case 'x-www-form-urlencoded':
+                default:
+                    $body = is_array($body) ? http_build_query($body) : $body;
+                    var_dump($body);
+                    break;
+            }
+
             curl_setopt($ch, CURLOPT_POST, 1);
-            // curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($body) ? http_build_query($body) : $body);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($body) ? json_encode($body) : $body);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
         }
 
         if (!empty($cert)) {
@@ -229,6 +245,9 @@ class HttpClient
     {
         $result = [];
         foreach ($headers as $k => $v) {
+            if ($k == 'Content-Type' || $k == 'content-type') {
+                self::$contentType = $v;
+            }
             $result[] = sprintf('%s:%s', $k, $v);
         }
         return $result;
