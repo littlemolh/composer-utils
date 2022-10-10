@@ -203,7 +203,6 @@ class HttpClient
                 case 'x-www-form-urlencoded':
                 default:
                     $body = is_array($body) ? http_build_query($body) : $body;
-                    var_dump($body);
                     break;
             }
 
