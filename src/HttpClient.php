@@ -196,7 +196,7 @@ class HttpClient
 
         if ($type == 'POST') {
             preg_match('/application\/([\w-]*)/', self::$contentType ?? '', $matches);
-            switch ($matches[1]) {
+            switch ($matches[1] ?? '') {
                 case 'json':
                     $body = is_array($body) ? json_encode($body) : $body;
                     break;
@@ -244,7 +244,7 @@ class HttpClient
     {
         $result = [];
         foreach ($headers as $k => $v) {
-            if ($k == 'Content-Type' || $k == 'content-type') {
+            if (strtolower($k) == 'content-type') {
                 self::$contentType = $v;
             }
             $result[] = sprintf('%s:%s', $k, $v);
