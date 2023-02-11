@@ -13,6 +13,8 @@ namespace littlemo\utils\core;
  */
 class LUtilsException extends \Exception
 {
+
+    private $data = null;
     /**
      * DbException constructor.
      * @param string    $message
@@ -20,7 +22,6 @@ class LUtilsException extends \Exception
      * @param string    $sql
      * @param int       $code
      */
-
     public function __construct($message = "", $code = 0, $data = [])
     {
         parent::__construct($message, (int)$code);
