@@ -44,20 +44,22 @@ class Git
      * @author LittleMo 25362583@qq.com
      * @since 2021-04-16
      * @version 2021-04-16
-     * @param string $localToken
+     * @param string $token 本地设置的token
      * @return boolean
      */
-    public function check($localToken = '')
+    public function check($token = '')
     {
         if (self::$check == true) {
             return;
         }
-        if (empty($localToken)) {
+        if (empty($token)) {
             throw new LUtilsException('请先设置token');
         }
-        $distalToken = $_GET['token'] ?? $_SERVER['HTTP_X_GITEE_TOKEN'] ?? 'k';
 
-        if ($localToken != $distalToken) {
+        //获取请求者携带token
+        $requestToken = $_GET['token'] ?? $_SERVER['HTTP_X_GITEE_TOKEN'] ?? $_SERVER['HTTP_X_GITLAB_TOKEN'] ?? 'k';
+
+        if ($token != $requestToken) {
             throw new LUtilsException('token匹配不成功');
         }
         self::$check = true;
