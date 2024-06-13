@@ -1,5 +1,5 @@
 
-littlemo utils
+Littlemo utils
 ===============
 
 [![Total Downloads](https://poser.pugx.org/littlemo/utils/downloads)](https://packagist.org/packages/littlemo/utils)
@@ -8,31 +8,30 @@ littlemo utils
 [![PHP Version](https://img.shields.io/badge/php-%3E%3D7.0-8892BF.svg)](http://www.php.net/)
 [![License](https://poser.pugx.org/littlemo/utils/license)](https://packagist.org/packages/littlemo/utils)
 
-### 介绍
+## 介绍
 php常用工具库
 
-#### 软件架构
-基于ThinkPHP
 
-
-### 安装教程
+## 安装
 
 composer.json
 ```json
 {
     "require": {
-        "littlemo/utils": "~1.2"
+        "littlemo/utils": "1.4.*"
     }
 }
 ```
+```shell
+composer require littlemo/utils:"1.4.*"
+```
+## 使用
 
-### 使用说明
-
-#### 统计单位时间内同一个IP请求次数
+### 统计单位时间内同一个IP请求次数
 
 >需要安装`redis`扩展,并启动 `redis` 服务
 
-##### 示例代码
+#### 示例代码
 
 
 ```php
@@ -201,4 +200,4 @@ print_r(Banner::getMessage());//输出错误信息
 
 ### 特技
 
-- 统一、精简
+- 简洁易用
