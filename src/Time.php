@@ -12,6 +12,14 @@
 
 namespace littlemo\utils;
 
+/**
+ * 时间相关
+ * @description
+ * @example
+ * @author LittleMo 25362583@qq.com
+ * @since 2024-06-13
+ * @version 2024-06-13
+ */
 class Time
 {
 

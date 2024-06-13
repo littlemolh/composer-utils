@@ -61,6 +61,12 @@ class Banner
         }
     }
 
+    static function filledpolygon($points, $num, $color)
+    {
+        // 填充倒角多边形
+        imagefilledpolygon(self::$image, $points, $num, $color);
+    }
+
     /**
      * 设置背景颜色
      *
@@ -81,6 +87,26 @@ class Banner
         }
         imagefill(self::$image, 0, 0, $color);
         // imageColorTransparent(self::$image, $color);
+    }
+    static function fillBg($color, $x2, $y2, $x1 = 0, $y1 = 0)
+    {
+        imagefilledrectangle(self::$image, $x1, $y1, $x2, $y2, $color);
+    }
+
+    static function  addRectangle($x1, $y1, $width, $height, $radius, $color)
+    {
+        $height = $height ?: $width;
+        $x2 = $x1 + $width;
+        $y2 = $y1 + $height;
+
+        // draw rectangle without corners
+        imagefilledrectangle(self::$image, $x1 + $radius, $y1, $x2 - $radius, $y2, $color);
+        imagefilledrectangle(self::$image, $x1, $y1 + $radius, $x2, $y2 - $radius, $color);
+        // draw circled corners
+        imagefilledellipse(self::$image, $x1 + $radius, $y1 + $radius, $radius * 2, $radius * 2, $color);
+        imagefilledellipse(self::$image, $x2 - $radius, $y1 + $radius, $radius * 2, $radius * 2, $color);
+        imagefilledellipse(self::$image, $x1 + $radius, $y2 - $radius, $radius * 2, $radius * 2, $color);
+        imagefilledellipse(self::$image, $x2 - $radius, $y2 - $radius, $radius * 2, $radius * 2, $color);
     }
     /**
      * 设置颜色

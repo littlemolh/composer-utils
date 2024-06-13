@@ -29,6 +29,23 @@ class LUtilsException extends \Exception
         $this->data = $data;
     }
 
+    public static function FileDoesNotExist(string $path): self
+    {
+        return new self("There is no file at path: `{$path}`.");
+    }
+    public static function InvalidPrivateKey(): self
+    {
+        return new self("This does not seem to be a valid private key.");
+    }
+    public static function InvalidPublicKey(): self
+    {
+        return new self("This does not seem to be a valid public key.");
+    }
+    public static function CouldNotDecryptData(): self
+    {
+        return new self("Could not decrypt the data.");
+    }
+
     public function getData()
     {
         return $this->data;
