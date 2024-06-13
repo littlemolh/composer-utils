@@ -79,7 +79,7 @@ class Date
             $days[] = compact('date', 'start_date', 'end_date');
             # code...
             $day = date("Y-m-d", strtotime('+1 day', strtotime($day)));
-            if (strtotime($day) <= time() && !$overflow) {
+            if (strtotime($day) > time() && !$overflow) {
                 break;
             }
         } while (date("Y-m", strtotime($day)) == $month);
